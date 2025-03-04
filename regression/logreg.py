@@ -129,7 +129,8 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             The predicted labels (y_pred) for given X.
         """
-        pass
+        z = X @ self.W  # Linear combination
+        return 1 / (1 + np.exp(-z))  # Sigmoid activation
     
     def loss_function(self, y_true, y_pred) -> float:
         """
@@ -143,7 +144,11 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             The mean loss (a single number).
         """
-        pass
+        
+        epsilon = 1e-10  # To prevent log(0)
+        y_pred = np.clip(y_pred, epsilon, 1 - epsilon)  # Ensure y_pred is in valid range
+        return -np.mean(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred))
+
         
     def calculate_gradient(self, y_true, X) -> np.ndarray:
         """
@@ -157,4 +162,6 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             Vector of gradients.
         """
-        pass
+        
+        y_pred = self.make_prediction(X)
+        return (X.T @ (y_pred - y_true)) / X.shape[0]
