@@ -1,4 +1,4 @@
-[![project7](https://github.com/ipsamitt/HW7-Regreesion/actions/workflows/main.yml/badge.svg)](https://github.com/ipsamitt/HW7-Regression/actions/workflows/main.yml)
+[![project7](https://github.com/ipsamitt/HW7-Regression/actions/workflows/main.yml/badge.svg)](https://github.com/ipsamitt/HW7-Regression/actions/workflows/main.yml)
 
 # HW 7: logistic regression
 
