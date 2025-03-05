@@ -59,7 +59,6 @@ class BaseRegressor():
 
             # Iterate through batches (one of these loops is one epoch of training)
             for X_train, y_train in zip(X_batch, y_batch):
-
                 # Make prediction and calculate loss
                 y_pred = self.make_prediction(X_train)
                 train_loss = self.loss_function(y_train, y_pred)
@@ -73,7 +72,6 @@ class BaseRegressor():
 
                 # Save parameter update size
                 update_sizes.append(np.abs(new_W - prev_W))
-
                 # Compute validation loss
                 val_loss = self.loss_function(y_val, self.make_prediction(X_val))
                 self.loss_hist_val.append(val_loss)
@@ -129,6 +127,11 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             The predicted labels (y_pred) for given X.
         """
+     #   print(X.shape)
+     #   print(self.W.shape)
+
+        if X.shape[1] == self.num_feats:  # If X does not include bias, add it
+            X = np.hstack([X, np.ones((X.shape[0], 1))])
         z = X @ self.W  # Linear combination
         return 1 / (1 + np.exp(-z))  # Sigmoid activation
     
@@ -162,6 +165,7 @@ class LogisticRegressor(BaseRegressor):
         Returns: 
             Vector of gradients.
         """
-        
+        if X.shape[1] == self.num_feats:  # If X does not include bias, add it
+            X = np.hstack([X, np.ones((X.shape[0], 1))])
         y_pred = self.make_prediction(X)
         return (X.T @ (y_pred - y_true)) / X.shape[0]
